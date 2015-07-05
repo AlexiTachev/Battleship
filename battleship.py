@@ -1,5 +1,36 @@
 from random import random
 
+class Game:
+
+    def __init__(self):
+        ''' The game keeps track of a board for each player, as well as
+        whose turn it currently is. '''
+        self.turn = 0
+        self.players = [Board(), Board()]
+
+    def parseGuess(self, guess):
+        ''' This function takes a guess in the form of "A0",
+        and returns the coordinates (0,0) to be used to find
+        in a game board. '''
+        return int(guess[1]), ord(guess[0].upper()) - 65
+
+    def play(self):
+        ''' Main game loop, continues to run while neither
+        player hasLost. Take input from user, apply the
+        guess to the opponent board, check to see if the
+        opponent has lost, then change turn. If a player
+        loses, exit the loop and print the winner. '''
+        while not self.players[0].hasLost() and not self.players[1].hasLost():
+            self.players[(self.turn - 1) % 2].display()
+            guess = raw_input("Player %s turn to guess: " % (self.turn +1))
+            x, y = self.parseGuess(guess)
+            self.players[(self.turn - 1) % 2].guess(x, y)
+            self.turn = (self.turn - 1) % 2
+        if self.players[0].hasLost():
+            print "Player 2 wins!"
+        else:
+            print "Player 1 wins!"
+
 class Board:
 
     def __init__(self):
@@ -52,3 +83,5 @@ class Board:
                 if self.board[i][j] == "#":
                     return False
         return True
+
+Game().play()
