@@ -15,7 +15,7 @@ class Board:
             self.board.append(row)
 
     def display(self):
-        ''' Prints the game board to the screen. Replaces any ships with water so
+        ''' Prints the game board to the screen. Replace any ships with water so
         the opponent cannot see them when guessing. '''
         for i in range(5):
             row = ""
@@ -25,3 +25,32 @@ class Board:
                 else:
                     row += self.board[i][j]
             print row
+
+    def guess(self, x, y):
+        ''' Applies the guess to the board. If there is a
+        ship, it replaces it with an "X" and print "HIT", otherwise
+        replace with a "O" and print "MISS". '''
+        row = ""
+        for i in range(5):
+            if y == i:
+                if self.board[x][i] == "#":
+                    row += "X"
+                else:
+                    row += "O"
+            else:
+                row += self.board[x][i]
+        self.board[x] = row
+
+    def hasLost(self):
+        ''' Check to see if the board has any more ships
+        left. Return True if no ships are left, or False
+        otherwise. '''
+        # Your code here
+
+#Game().play()
+
+# peek at board
+b = Board()
+b.display()
+b.guess(4,1)
+b.display()
