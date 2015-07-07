@@ -21,16 +21,22 @@ class Game:
         opponent has lost, then change turn. If a player
         loses, exit the loop and print the winner. '''
         while not self.players[0].hasLost() and not self.players[1].hasLost():
-            self.players[(self.turn - 1) % 2].display()
-            guess = raw_input("Player %s turn to guess: " % (self.turn +1))
-            x, y = self.parseGuess(guess)
+            print
+            print "*** PLAYER %s'S TURN ***" % (self.turn + 1)
+            print
+            print "   ABCDE"
             self.players[self.turn].display()
-            self.players[(self.turn - 1) % 2].guess(x, y)
+            print
+            guess = raw_input("Player %s turn to guess: " % (self.turn + 1))
+            x, y = self.parseGuess(guess)
+            self.players[self.turn].guess(x, y)
+            self.players[self.turn].display()
             self.turn = (self.turn - 1) % 2
+            print "------------------------"
         if self.players[0].hasLost():
-            print "Player 2 wins!"
-        else:
             print "Player 1 wins!"
+        else:
+            print "Player 2 wins!"
 
 class Board:
 
@@ -50,7 +56,7 @@ class Board:
         ''' Prints the game board to the screen. Replaces any ships with water so
         the opponent cannot see them when guessing. '''
         for i in range(5):
-            row = ""
+            row = " %s " % (i + 1) 
             for j in range(5):
                 if self.board[i][j] == "#":
                     row += "~"
@@ -70,11 +76,13 @@ class Board:
                     print
                     print "HIT"
                     print
+                    print "   ABCDE"
                 else:
                     row += "O"
                     print
                     print "MISS"
                     print
+                    print "   ABCDE"
             else:
                 row += self.board[x][i]
         self.board[x] = row
