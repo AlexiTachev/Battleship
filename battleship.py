@@ -12,7 +12,7 @@ class Game:
         ''' This function takes a guess in the form of "A0",
         and returns the coordinates (0,0) to be used to find
         in a game board. '''
-        return int(guess[1]), ord(guess[0].upper()) - 65
+        return int(guess[1]) - 1, ord(guess[0].upper()) - 65
 
     def play(self):
         ''' Main game loop, continues to run while neither
@@ -24,6 +24,7 @@ class Game:
             self.players[(self.turn - 1) % 2].display()
             guess = raw_input("Player %s turn to guess: " % (self.turn +1))
             x, y = self.parseGuess(guess)
+            self.players[self.turn].display()
             self.players[(self.turn - 1) % 2].guess(x, y)
             self.turn = (self.turn - 1) % 2
         if self.players[0].hasLost():
@@ -66,10 +67,14 @@ class Board:
             if y == i:
                 if self.board[x][i] == "#":
                     row += "X"
+                    print
                     print "HIT"
+                    print
                 else:
                     row += "O"
+                    print
                     print "MISS"
+                    print
             else:
                 row += self.board[x][i]
         self.board[x] = row
